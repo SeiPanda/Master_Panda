@@ -6,6 +6,8 @@ let colorArray1 = ["#0B1C1E", "#1C3947", "#2B4E61", "#71989B", "#E4960E", "#F2C2
 
 let currentArray = colorArray;
 
+let rowCount = 8;
+
 giveRandomColor();
 
 document.querySelector("#reload_button").addEventListener("click", handleReloadButton);
@@ -53,9 +55,24 @@ document.querySelectorAll(".default_color_field").forEach(color_field => {
 })
 
 let colorRows = [];
-document.querySelector()
+
+let rows = [];
+
+
+
+
 
 function handleColorClick(event) {
+
+    // also rowCount = 8 aber sind es auch 8 also fängt des bei 0 an zu zählen oder 1 bei 1 glaub
+   
+    let target = event.target.style.color;
+
+    console.log("co" + rowCount );
+    console.log( document.querySelector(  ".guessContainer:nth-child(" + rowCount + ") .color_field:nth-child(" + (i+1) + ") > *" ) );
+
+    document.querySelector(".guessContainer:nth-child(" + rowCount + ") .color_field:nth-child(" + (i+1) + ") > *").style.color = target;
+
     if(colorRows.length > 2 && colorRows.length < 4){
         colorRows[i] = event.target.style.color;
         loadResults();      
@@ -80,4 +97,5 @@ function loadResults() {
             console.log("x")
         }
     }
+    colorRows = [];
 }
