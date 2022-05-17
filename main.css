@@ -134,3 +134,16 @@ body {
 .fas.fa-circle {
     font-size: 3.5em;
 }
+
+
+/* fhw changes  */
+
+.round {
+    width: 50%;
+    height: 50%;
+    max-width: 50px;
+    max-height: 50px;
+    background: blue;
+    border-radius: 50%;
+}
+
