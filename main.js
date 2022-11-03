@@ -1,14 +1,15 @@
 
-let currentCodeArray = ["#355070", "#6D597A", "#B56576", "#E56B6F"];
+let currentCodeArray = ["", "", "", ""];
 
-let colorArray = ["#355070", "#6D597A", "#B56576", "#E56B6F", "#E88C7D", "#EAAC8B"];
-let colorArray1 = ["#0B1C1E", "#1C3947", "#2B4E61", "#71989B", "#E4960E", "#F2C269"];
+let colorArray = ["rgb(53, 80, 112)", "rgb(109, 89, 122)", "rgb(181, 101, 118)", "rgb(229, 107, 111)", "rgb(232, 140, 125)", "rgb(234, 172, 139)"];
+let colorArray1 = ["rgb(255, 113, 113)", "rgb(202, 255, 128)", "rgb(255, 188, 99)", "rgb(152, 222, 255)", "rgb(255, 217, 65)", "rgb(253, 147, 255)"];
+
 
 let currentArray = colorArray;
 
-let rowCount = 8;
+let rowCount = 7;
 
-giveRandomColor();
+setColoring();
 
 document.querySelector("#reload_button").addEventListener("click", handleReloadButton);
 
@@ -18,24 +19,13 @@ function handleReloadButton() {
     }else{
         currentArray = colorArray
     }
-    giveRandomColor();
+    setColoring();
 }
 
-function giveColor() {
-    document.querySelector("#default_color_field_1 > .fas.fa-circle").style.color = "#355070"
-    document.querySelector("#default_color_field_2 > .fas.fa-circle").style.color = "#6D597A"
-    document.querySelector("#default_color_field_3 > .fas.fa-circle").style.color = "#B56576"
-    document.querySelector("#default_color_field_4 > .fas.fa-circle").style.color = "#E56B6F"
-    document.querySelector("#default_color_field_5 > .fas.fa-circle").style.color = "#E88C7D"
-    document.querySelector("#default_color_field_6 > .fas.fa-circle").style.color = "#EAAC8B"
-}
-
-function giveRandomColor() {
+function setColoring() {
     let i = 0;
     let random;
     let lengthArray = colorArray.length;
-
-   
 
     document.querySelectorAll(".default_color_field > .fas.fa-circle").forEach( item => {
         if(lengthArray > 0){
@@ -46,6 +36,18 @@ function giveRandomColor() {
         i = i + 1;
         lengthArray = lengthArray - 1;
     })
+
+    lengthArray = colorArray.length;
+    i= 0;
+
+    randomSecretColors();
+}
+
+function randomSecretColors(){
+    let randomColors = currentArray.sort(() => Math.random() - .5).slice(0, 4);
+  
+    currentCodeArray = randomColors;
+    console.log(currentCodeArray)
 }
 
 let i = 0;
@@ -58,13 +60,7 @@ let colorRows = [];
 
 let rows = [];
 
-
-
-
-
 function handleColorClick(event) {
-
-    // also rowCount = 8 aber sind es auch 8 also fängt des bei 0 an zu zählen oder 1 bei 1 glaub
    
     let target = event.target.style.color;
 
@@ -86,16 +82,74 @@ function handleColorClick(event) {
     }
 }
 
-let j;
+
 
 function loadResults() {
-    console.log("Resutl")
-    for(j = 0; currentCodeArray.length > j; j++){
-        console.log(currentCodeArray[j]);
-        console.log(colorRows[j])
+    let j;
+    let t = 0;
+    let resultArray = [];
+
+    for(j = 0; j < currentCodeArray.length; j++){
+      if(colorRows.includes(currentCodeArray[j])){
         if(currentCodeArray[j] === colorRows[j]){
-            console.log("x")
+            //wenn farbe enthalten und richtige stelle, 
+            resultArray.push(2);
+        }else{
+            //wenn richtige farbe aber falsche stelle
+            resultArray.push(1);
+        }
+      }else{
+        //nicht richtige farbe und nicht richtige stelle
+        resultArray.push(0);
+      }
+    }
+
+
+    
+    const sortedArray = resultArray.reverse(resultArray.sort());
+    
+
+   console.log(sortedArray);
+
+    for(t = 0; t < sortedArray.length; t++){
+     
+        let resultField = document.querySelector(".guessContainer:nth-child(" + rowCount + ") .result_field:nth-child(" + (t+1) + ") > *");
+        
+        if(sortedArray[t] === 2){
+            resultField.classList.add("rightColorPlace")
+        }
+
+        if(sortedArray[t] === 1){
+            resultField.classList.add("rightColor")
         }
     }
+
+   let checkWin = handleWin(sortedArray);
+
+   console.log(checkWin)
+
+    if(checkWin){
+        showSecretCode();
+        return;
+    }
+
     colorRows = [];
+    rowCount = rowCount - 1;
+}
+
+function handleWin(sortedArray){
+    if(sortedArray.includes(1) || sortedArray.includes(0)){
+        return false;
+    }else{
+        return true;
+    }
+}
+
+function showSecretCode(){
+    document.querySelectorAll(".guessCode_color_field > .fas.fa-circle").forEach( (item, index) => {
+        item.style.color = currentCodeArray[index];
+    })
+
+    document.querySelector(".mask").classList.remove("hidden");
+
 }

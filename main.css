@@ -1,10 +1,10 @@
 @font-face {
     font-family: cool;
-    src: url("../fonts/coolvetica\ rg.ttf");
+    src: url("./fonts/coolvetica\ rg.ttf");
 }
 @font-face {
     font-family: cool_it;
-    src: url("../fonts/coolvetica\ rg\ it.ttf");
+    src: url("./fonts/coolvetica\ rg\ it.ttf");
 }
 
 body {
@@ -95,7 +95,7 @@ body {
 }
 
 .color_field > .fas.fa-circle {
-    color: white;
+    color: rgba(255, 255, 255, 0.363);
 }
 
 .resultContainer {
@@ -110,7 +110,7 @@ body {
 
 .result_field > .fas.fa-circle {
     font-size: 2.8em !important;
-    color: white;
+    color: rgba(255, 255, 255, 0.363);
 }
 
 /*Choose Container*/
@@ -121,6 +121,13 @@ body {
     margin: 1em;
 }
 
+#secretContainer{
+    display: grid;
+    width: 95vw;
+    margin: 1em;
+    margin-top: 0 !important;
+}
+
 #rowColor_inner {
     padding: 24px;
     background-color: whitesmoke;
@@ -129,6 +136,20 @@ body {
     align-items: center;
     border-radius: 10px;
     justify-content: space-evenly;
+}
+
+#secretColorRow{
+    padding: 24px;
+    background-color: whitesmoke;
+    border: 1px solid gray;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    justify-content: space-evenly;
+}
+
+.guessCode_color_field {
+    color: #242424;
 }
 
 .fas.fa-circle {
@@ -147,3 +168,24 @@ body {
     border-radius: 50%;
 }
 
+
+.rightColorPlace{
+    color: black !important;
+}
+
+.rightColor{
+    color: white !important;
+}
+
+.mask{
+    position: absolute;
+    top: 0;
+    width: 95vw;
+    height: 80%;
+    top: 20%;
+    background: transparent;
+}
+
+.hidden {
+    display: none;
+}
