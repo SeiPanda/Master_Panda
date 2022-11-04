@@ -17,7 +17,7 @@ body {
     flex-direction: column;
     height: 100vh;
     width: 100%;
-    justify-content: space-evenly;
+   
     align-items: center;
 }
 
@@ -30,12 +30,12 @@ body {
     background-color: #404040;
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, .3);
     margin: 1em;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     width: 95vw;
 }
   
 #heading-container {
-    padding: 20px;
+    padding: 1.25rem;
     display: flex;
     align-items: baseline;
 }
@@ -55,9 +55,9 @@ body {
 }
 
 #reload_button {
-    padding: 13px;
+    padding: 0.8rem;
     border: 1px solid #535252;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     box-shadow: 0px 0px 4px 0px #2a2a2a;
 }
 
@@ -91,7 +91,7 @@ body {
     align-items: center;
     border-radius: 10px;
     justify-content: space-evenly;
-    padding: 13px;
+    padding: 0.8rem;
 }
 
 .color_field > .fas.fa-circle {
@@ -101,9 +101,9 @@ body {
 .resultContainer {
     display: flex;
     border: 1px solid whitesmoke;
-    padding: 10px;
+    padding: 0.625rem;
     background-color: grey;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     justify-content: space-evenly;
     align-items: center;
 }
@@ -129,22 +129,22 @@ body {
 }
 
 #rowColor_inner {
-    padding: 24px;
+    padding: 1.5rem;
     background-color: whitesmoke;
     border: 1px solid gray;
     display: flex;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     justify-content: space-evenly;
 }
 
 #secretColorRow{
-    padding: 24px;
+    padding: 1.5rem;
     background-color: whitesmoke;
     border: 1px solid gray;
     display: flex;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     justify-content: space-evenly;
 }
 
@@ -188,4 +188,154 @@ body {
 
 .hidden {
     display: none;
+}
+
+.disabled{
+    color:rgb(175, 175, 175) !important;
+
+}
+
+
+/*PopUP Category*/
+
+.current {
+    background-color: #229e9e7c !important;
+  }
+  
+
+#category-container, #category-container2 {
+
+
+    width: 95vw;
+    border-radius: 0.625rem;
+    margin-bottom: 2rem;
+    background-color: #404040;
+}
+
+
+  
+#inner-container1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0.5rem;
+    text-align: center;
+    gap: 1rem;
+    height: 8vh; 
+
+}
+
+#inner-container2{
+    display: grid;
+   
+    padding: 0.5rem;
+    text-align: center;
+    justify-content: center;
+    gap: 2rem;
+
+}
+
+#container-inner-category {
+    display: flex;
+    height: 15vh;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+#container-inner-category2 {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: fit-content;
+}
+
+.category {
+    color: white;
+    font-size: 1.5rem;
+    background-color: #6868687c;
+    padding: 0.5rem;
+    border-radius: 0.625rem;
+    font-family: cool_it;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+#icon_category2, #icon_category3{
+    color: white;
+    font-size: 1.5rem;
+    background-color: #6868687c;
+    padding: 0.5rem;
+    border-radius: 0.625rem;
+    font-family: cool_it;
+   align-items: center;
+   justify-content: space-evenly;
+    display: flex;
+  
+    width: 60vw;
+}
+
+.b {
+    background-color: #6868687c !important;
+    width: 4rem;
+}
+
+.fas.fa-check {
+    font-size: 2rem;
+}
+
+.fas.fa-times {
+    font-size: 2rem;
+}
+
+.buttonArea {
+    display: flex;
+    padding: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+#text_cate {
+    font-size: 1.5em;
+    color: white;
+    font-family: cool_it;
+}
+
+#code {
+    font-size: 1.5em;
+    color: white;
+    font-family: cool_it;
+}
+
+.submitButton{
+
+    color: white;
+    box-shadow: 4px 4px 10px #292929;
+    border:none;
+    text-shadow: 1px 1px 2px #0a0a0a;
+    
+    border-radius: 0.625rem;
+    font-family: cool_it;
+}
+
+
+
+.closingButton{
+
+    box-shadow: 4px 4px 10px #292929;
+    visibility: hidden;
+    text-shadow: 1px 1px 2px #0a0a0a;
+    color: white;
+    border-radius: 0.625rem;
+    border:none;
+
+    font-family: cool_it;
+}
+  
+.versusField{
+    font-size: 1rem !important;
+}
+
+.colorOptions{
+    font-size: 1rem !important;
 }
