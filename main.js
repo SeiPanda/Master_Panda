@@ -7,6 +7,8 @@ let rowCount = 7;
 let colorRows = [];
 let currentField = 0;
 
+let default_color_field = document.querySelectorAll(".default_color_field");
+
 default_color_field.forEach(color_field => {
     color_field.addEventListener("click", handleColorClick);
 })
@@ -52,7 +54,6 @@ function RestartGame(){
     mask.classList.add("hidden");
 }
 
-let default_color_field = document.querySelectorAll(".default_color_field");
 let default_color_field_fa_circle = document.querySelectorAll(".default_color_field > .fas.fa-circle");
 
 function setColoring() {
