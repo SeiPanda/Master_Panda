@@ -9,8 +9,6 @@ categorys.forEach(item => {
     item.addEventListener("click", handleClickCategory);
 })
 
-
-
 let submitButton1 = document.querySelector("#submitButton1");
 let is_submit_button = true;
 

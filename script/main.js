@@ -75,7 +75,7 @@ function setColoring() {
     default_color_field_fa_circle.forEach( (item, index) => {
         item.style.color = currentColorPalette[index];
     })
-    if(gameMode === "coop"){
+    if(gameMode === "Co-op"){
         randomSecretColors(); 
     }else{
         currentCodeArray = JSON.parse(sessionStorage.getItem("versusColorCode"));
@@ -86,6 +86,7 @@ function setColoring() {
 function randomSecretColors(){
     let randomColors = currentColorPalette.sort(() => Math.random() - .5).slice(0, 4);
     currentCodeArray = randomColors;
+    console.log(currentCodeArray)
 }
 
 function handleColorClick(event) {
