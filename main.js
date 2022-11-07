@@ -2,7 +2,7 @@
 let currentCodeArray = ["", "", "", ""];
 
 let colorArray = ["rgb(53, 80, 112)", "rgb(109, 89, 122)", "rgb(181, 101, 118)", "rgb(229, 107, 111)", "rgb(232, 140, 125)", "rgb(234, 172, 139)"];
-let colorArray1 = ["rgb(255, 113, 113)", "rgb(202, 255, 128)", "rgb(255, 188, 99)", "rgb(152, 222, 255)", "rgb(255, 217, 65)", "rgb(253, 147, 255)"];
+let colorArray1 = ["rgb(18, 118, 121)", "rgb(181, 147, 146)", "rgb(53, 80, 112)", "rgb(232, 140, 125)", "rgb(69, 53, 71)", "rgb(234, 172, 139)"];
 
 let rowCount = 7;
 
@@ -22,6 +22,9 @@ function StartGame(){
 }
 
 function RestartGame(){
+
+    enableDefaultColorButtons();
+
     document.querySelectorAll(".colorRow > .color_field > .fas.fa-circle").forEach(item => {
         item.style.color = "rgba(255, 255, 255, 0.363)"; 
     });
@@ -44,13 +47,13 @@ function RestartGame(){
 
 function setColoring() {
     document.querySelectorAll(".default_color_field > .fas.fa-circle").forEach( (item, index) => {
-        item.style.color = colorArray[index];
+        item.style.color = colorArray1[index];
     })
     randomSecretColors();
 }
 
 function randomSecretColors(){
-    let randomColors = colorArray.sort(() => Math.random() - .5).slice(0, 4);
+    let randomColors = colorArray1.sort(() => Math.random() - .5).slice(0, 4);
   
     currentCodeArray = randomColors;
 }
