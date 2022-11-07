@@ -1,98 +1,89 @@
 
 let currentCodeArray = ["", "", "", ""];
-
 let colorArray = ["rgb(53, 80, 112)", "rgb(109, 89, 122)", "rgb(181, 101, 118)", "rgb(229, 107, 111)", "rgb(232, 140, 125)", "rgb(234, 172, 139)"];
 let colorArray1 = ["rgb(18, 118, 121)", "rgb(181, 147, 146)", "rgb(53, 80, 112)", "rgb(232, 140, 125)", "rgb(69, 53, 71)", "rgb(234, 172, 139)"];
-
+let currentColorPalette = colorArray1;
 let rowCount = 7;
+let colorRows = [];
+let currentField = 0;
 
-StartGame();
-
-
+default_color_field.forEach(color_field => {
+    color_field.addEventListener("click", handleColorClick);
+})
 
 document.querySelector("#reload_button").addEventListener("click", handleReloadButton);
+
+StartGame();
 
 function handleReloadButton() {
     RestartGame();
 }
 
-
 function StartGame(){
     setColoring();
 }
 
-function RestartGame(){
+let guessCode_fa_circle =  document.querySelectorAll(".guessCode_color_field > .fas.fa-circle");
+let result_field_fa_circle =  document.querySelectorAll(".result_field > .fas.fa-circle");
+let color_row_fa_circle = document.querySelectorAll(".colorRow > .color_field > .fas.fa-circle");
+let mask = document.querySelector(".mask");
 
+function RestartGame(){
+    currentField = 0;
+    colorRows = [];
+    rowCount = 7;
     enableDefaultColorButtons();
 
-    document.querySelectorAll(".colorRow > .color_field > .fas.fa-circle").forEach(item => {
+   color_row_fa_circle.forEach(item => {
         item.style.color = "rgba(255, 255, 255, 0.363)"; 
     });
 
-    document.querySelectorAll(".result_field > .fas.fa-circle").forEach(item => {
+   result_field_fa_circle.forEach(item => {
         item.classList.remove("rightColor"); 
         item.classList.remove("rightColorPlace"); 
     });
 
-    document.querySelectorAll(".guessCode_color_field > .fas.fa-circle").forEach( (item) => {
+   guessCode_fa_circle.forEach( (item) => {
         item.style.color = "#242424";
     })
 
     randomSecretColors();
 
-    rowCount = 7;
-
-    document.querySelector(".mask").classList.add("hidden");
+    mask.classList.add("hidden");
 }
 
+let default_color_field = document.querySelectorAll(".default_color_field");
+let default_color_field_fa_circle = document.querySelectorAll(".default_color_field > .fas.fa-circle");
+
 function setColoring() {
-    document.querySelectorAll(".default_color_field > .fas.fa-circle").forEach( (item, index) => {
-        item.style.color = colorArray1[index];
+    default_color_field_fa_circle.forEach( (item, index) => {
+        item.style.color = currentColorPalette[index];
     })
     randomSecretColors();
 }
 
 function randomSecretColors(){
-    let randomColors = colorArray1.sort(() => Math.random() - .5).slice(0, 4);
-  
+    let randomColors = currentColorPalette.sort(() => Math.random() - .5).slice(0, 4);
     currentCodeArray = randomColors;
 }
-
-
-
-document.querySelectorAll(".default_color_field").forEach(color_field => {
-    color_field.addEventListener("click", handleColorClick);
-})
-
-let colorRows = [];
-
-let rows = [];
-
-let i = 0;
 
 function handleColorClick(event) {
    
     let target = event.target.style.color;
 
-    document.querySelector(".guessContainer:nth-child(" + rowCount + ") .color_field:nth-child(" + (i+1) + ") > *").style.color = target;
+    document.querySelector(".guessContainer:nth-child(" + rowCount + ") .color_field:nth-child(" + (currentField+1) + ") > *").style.color = target;
 
     let id = event.target.parentNode.id;
-
-   
-   console.log(id)
-
    disableDefaultColorButton(id);  
 
     if(colorRows.length > 2 && colorRows.length < 4){
-        colorRows[i] = event.target.style.color;
+        colorRows[currentField] = event.target.style.color;
         loadResults();      
-        i = 0;
+        currentField = 0;
 
     }else{
-        console.log(event.target.style.color);
-        colorRows[i] = event.target.style.color;
-        console.log(colorRows)
-        i = i + 1;
+        colorRows[currentField] = event.target.style.color;
+        currentField = currentField + 1;
     }
 }
 
@@ -116,11 +107,7 @@ function loadResults() {
       }
     }
 
-
     const sortedArray = resultArray.reverse(resultArray.sort());
-    
-
-   console.log(sortedArray);
 
     for(t = 0; t < sortedArray.length; t++){
      
@@ -137,8 +124,6 @@ function loadResults() {
 
    let checkWin = handleWin(sortedArray);
 
-   console.log(checkWin)
-
     if(checkWin){
         showSecretCode();
         return;
@@ -151,7 +136,6 @@ function loadResults() {
         }
         enableDefaultColorButtons();
     }
-
     colorRows = [];
     rowCount = rowCount - 1;
 }
@@ -165,23 +149,23 @@ function handleWin(sortedArray){
 }
 
 function showSecretCode(){
-    document.querySelectorAll(".guessCode_color_field > .fas.fa-circle").forEach( (item, index) => {
+    guessCode_fa_circle.forEach( (item, index) => {
         item.style.color = currentCodeArray[index];
     })
 
-    document.querySelector(".mask").classList.remove("hidden");
-
+   mask.classList.remove("hidden");
 }
 
 function disableDefaultColorButton(currentClickedButtonID){
+
+    let defaultDisableButton = document.getElementById(currentClickedButtonID);
    
-    document.getElementById(currentClickedButtonID).children[0].classList.add("disabled");
-    
-    document.getElementById(currentClickedButtonID).removeEventListener("click", handleColorClick);
+    defaultDisableButton.children[0].classList.add("disabled");
+    defaultDisableButton.removeEventListener("click", handleColorClick);
 }
 
 function enableDefaultColorButtons(){
-    document.querySelectorAll(".default_color_field > .fas.fa-circle").forEach(x => {
+   default_color_field_fa_circle.forEach(x => {
         x.classList.remove("disabled");
         x.addEventListener("click", handleColorClick);
     })
