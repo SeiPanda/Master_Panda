@@ -1,5 +1,5 @@
-let colorRows = ["", "", "", ""];
 
+/*let colorRows = ["", "", "", ""];
 document.querySelector("#submitButton2").addEventListener("click", onConfirmClick);
 
 function onConfirmClick() {
@@ -15,6 +15,8 @@ function onConfirmClick() {
     }
 
 }
+
+
 
 let colorOptions = document.querySelectorAll(".colorOptions");
 
@@ -90,4 +92,4 @@ function enableDefaultColorButton(currentColor) {
             x.addEventListener("click", handleColorClick);
         }
      })
-}
+}*/

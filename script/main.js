@@ -1,4 +1,3 @@
-
 let currentCodeArray = ["", "", "", ""];
 let currentColorPalette = [];
 let rowCount = 7;
@@ -95,7 +94,7 @@ function randomSecretColors() {
 
 function colorCodeGenerator(){
     //Farbcode PopUp
-   
+
     document.querySelector("#pop-outer").style.display = "flex";
 }
 

@@ -70,7 +70,6 @@ function onConfirmClick() {
         return;
     }
     colorCode = colorRows;
-    console.log(colorCode)
     sessionStorage.setItem("versusColorCode", JSON.stringify(colorCode));
     sessionStorage.setItem("gameMode", JSON.stringify(currentGamemode));
     window.location="main.html";
@@ -177,7 +176,6 @@ function disableDefaultColorButton(currentClickedButtonID) {
 //click on chossen button in code container -> enable color in option row
 function enableDefaultColorButton(currentColor) {
     colorOptions.forEach(x => {
-        console.log(currentColor)
         if(x.style.color === currentColor){
             x.classList.remove("disabled");
             x.addEventListener("click", handleColorClick);
