@@ -1,7 +1,7 @@
 let colorArray = ["rgb(53, 80, 112)", "rgb(109, 89, 122)", "rgb(181, 101, 118)", "rgb(229, 107, 111)", "rgb(232, 140, 125)", "rgb(234, 172, 139)"];
 let colorArray1 = ["rgb(18, 118, 121)", "rgb(181, 147, 146)", "rgb(53, 80, 112)", "rgb(232, 140, 125)", "rgb(69, 53, 71)", "rgb(234, 172, 139)"];
 let currentColorPalette = colorArray1;
-let colorCode = ["rgb(53, 80, 112)", "rgb(109, 89, 122)", "rgb(181, 101, 118)", "rgb(229, 107, 111)"];
+let colorCode = [];
 
 let categorys = document.querySelectorAll(".category");
 
@@ -17,10 +17,8 @@ submitButton1.addEventListener("click", onclick);
 function onclick(){
     if(is_submit_button){
         confirmClicked();
-        //is_submit_button = false;
     }else{
         cancleClicked();
-        //is_submit_button = true;
     }
     is_submit_button = !is_submit_button;
 }
@@ -61,17 +59,21 @@ function cancleClicked(){
     container_inner_category2.classList.remove("open");
 }
 
+let colorRows = ["", "", "", ""];
+
 document.querySelector("#submitButton2").addEventListener("click", onConfirmClick);
 
 function onConfirmClick(){
     //Farbcode von icon_category2 speichern in session
-    localStorage.setItem("versusColorCode", JSON.stringify(colorCode));
+    if(colorRows.includes("")){
+        return;
+    }
+    colorCode = colorRows;
+    console.log(colorCode)
+    sessionStorage.setItem("versusColorCode", JSON.stringify(colorCode));
     sessionStorage.setItem("gameMode", JSON.stringify(currentGamemode));
     window.location="main.html";
 }
-
-//click auf versusfield farbe wieder zu coloroptions
-
 
 let colorOptions = document.querySelectorAll(".colorOptions");
 
@@ -80,9 +82,6 @@ function setColoring(){
         option.style.color = currentColorPalette[index];
     })
 }
-
-let currentField = 0;
-let colorRows = [];
 
 colorOptions.forEach( option => {
     option.addEventListener("click", handleColorClick);
@@ -100,32 +99,34 @@ document.querySelectorAll(".versusField").forEach(item => {
 
 function handleColorClick(event) {
 
-    if(currentField === 4){
-        return;
+    let currentSpot = 0;
+    let targetColor = event.target.parentNode.style.color;
+
+    for(let i = 0; i < colorRows.length; i++){
+        if(colorRows[i] === ""){
+            colorRows[i] = targetColor;
+            currentSpot = i;
+            document.querySelector("#icon_category2 > .versusField:nth-child(" + (currentSpot + 1) + ") > *").style.color = targetColor;
+            let id = event.target.parentNode.id;
+            disableDefaultColorButton(id);  
+            break;
+        }
     }
-
-    let target = event.target.parentNode.style.color;
-    console.log(target)
-
-    document.querySelector("#icon_category2 > .versusField:nth-child(" + (currentField+1) + ") > *").style.color = target;
-
-    let id = event.target.parentNode.id;
-    disableDefaultColorButton(id); 
-    
-    currentField = currentField + 1;
 }
-
 
 function removeColor(event){
  
     let targetColor = event.target.style.color;
     let currentField = document.getElementById(event.target.parentNode.id);
+    let currentSpot = colorRows.indexOf(currentField.children[0].style.color);
+    
     colorOptions.forEach( option => {
         if(option.children[0].classList.contains("disabled")){
             if(targetColor === option.style.color){
                 option.children[0].classList.remove("disabled");
                 currentField.children[0].style.color = "rgb(175, 175, 175)";
-                
+                colorRows[currentSpot] = "";
+                enableDefaultColorButton(targetColor);
                 return;
             }
         }
@@ -150,14 +151,12 @@ function handleClickCategory(e) {
     if(target_ === "Versus"){
         currentGamemode = "Versus";
     }
-
     markCurrentCategory();
 }
 
 function markCurrentCategory() {
     categorys.forEach( categ => {
         categ.classList.remove("current");
-
         if(categ.children[0].innerText === currentGamemode) {
             categ.classList.add("current");
         }
@@ -172,9 +171,19 @@ function disableDefaultColorButton(currentClickedButtonID){
     defaultDisableButton.removeEventListener("click", handleColorClick);
 }
 
-function enableDefaultColorButtons(){
-   colorOptions.forEach(x => {
-        x.classList.remove("disabled");
-        x.addEventListener("click", handleColorClick);
-    })
-}
+// function enableDefaultColorButtons(){
+//    colorOptions.forEach(x => {
+//         x.classList.remove("disabled");
+//         x.addEventListener("click", handleColorClick);
+//     })
+// }
+
+function enableDefaultColorButton(currentColor){
+    colorOptions.forEach(x => {
+        console.log(currentColor)
+        if(x.style.color === currentColor){
+            x.classList.remove("disabled");
+            x.addEventListener("click", handleColorClick);
+        }
+     })
+ }

@@ -91,20 +91,20 @@ function randomSecretColors(){
 
 function handleColorClick(event) {
    
-    let target = event.target.style.color;
+    let targetColor = event.target.style.color;
 
-    document.querySelector(".guessContainer:nth-child(" + rowCount + ") .color_field:nth-child(" + (currentField+1) + ") > *").style.color = target;
+    document.querySelector(".guessContainer:nth-child(" + rowCount + ") .color_field:nth-child(" + (currentField + 1) + ") > *").style.color = targetColor;
 
     let id = event.target.parentNode.id;
    disableDefaultColorButton(id);  
 
     if(colorRows.length > 2 && colorRows.length < 4){
-        colorRows[currentField] = event.target.style.color;
+        colorRows[currentField] = targetColor;
         loadResults();      
         currentField = 0;
 
     }else{
-        colorRows[currentField] = event.target.style.color;
+        colorRows[currentField] = targetColor;
         currentField = currentField + 1;
     }
 }
