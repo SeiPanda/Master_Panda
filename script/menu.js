@@ -14,7 +14,7 @@ let is_submit_button = true;
 
 submitButton1.addEventListener("click", onclick);
 
-function onclick(){
+function onclick() {
     if(is_submit_button){
         confirmClicked();
     }else{
@@ -27,7 +27,7 @@ let inner_container1 = document.querySelector("#inner-container1");
 let container_inner_category2 = document.querySelector("#container-inner-category2");
 let currentGamemode = "Co-op";
 
-function confirmClicked(){
+function confirmClicked() {
     categorys.forEach(cate => {
         if(!(cate.classList.contains("current"))){
             cate.classList.add("notChoosenByConfirmed");
@@ -49,7 +49,7 @@ function confirmClicked(){
     }
 }
 
-function cancleClicked(){
+function cancleClicked() {
     categorys.forEach(cate => {
         cate.classList.remove("notChoosenByConfirmed"); 
     })
@@ -63,7 +63,8 @@ let colorRows = ["", "", "", ""];
 
 document.querySelector("#submitButton2").addEventListener("click", onConfirmClick);
 
-function onConfirmClick(){
+//click on submit button -> save data in storage
+function onConfirmClick() {
     //Farbcode von icon_category2 speichern in session
     if(colorRows.includes("")){
         return;
@@ -77,7 +78,7 @@ function onConfirmClick(){
 
 let colorOptions = document.querySelectorAll(".colorOptions");
 
-function setColoring(){
+function setColoring() {
     colorOptions.forEach( (option, index) => {
         option.style.color = currentColorPalette[index];
     })
@@ -97,6 +98,7 @@ document.querySelectorAll(".versusField").forEach(item => {
     console.log(item.style.color)
 })
 
+// click on button in option row -> color printed on free place in code container
 function handleColorClick(event) {
 
     let currentSpot = 0;
@@ -114,12 +116,12 @@ function handleColorClick(event) {
     }
 }
 
-function removeColor(event){
- 
+//click on current color button -> disable click button -> enable color in option row
+function removeColor(event) {
     let targetColor = event.target.style.color;
     let currentField = document.getElementById(event.target.parentNode.id);
     let currentSpot = colorRows.indexOf(currentField.children[0].style.color);
-    
+
     colorOptions.forEach( option => {
         if(option.children[0].classList.contains("disabled")){
             if(targetColor === option.style.color){
@@ -163,7 +165,8 @@ function markCurrentCategory() {
     })
 }
 
-function disableDefaultColorButton(currentClickedButtonID){
+//current click button -> color option row
+function disableDefaultColorButton(currentClickedButtonID) {
 
     let defaultDisableButton = document.getElementById(currentClickedButtonID);
    
@@ -171,14 +174,8 @@ function disableDefaultColorButton(currentClickedButtonID){
     defaultDisableButton.removeEventListener("click", handleColorClick);
 }
 
-// function enableDefaultColorButtons(){
-//    colorOptions.forEach(x => {
-//         x.classList.remove("disabled");
-//         x.addEventListener("click", handleColorClick);
-//     })
-// }
-
-function enableDefaultColorButton(currentColor){
+//click on chossen button in code container -> enable color in option row
+function enableDefaultColorButton(currentColor) {
     colorOptions.forEach(x => {
         console.log(currentColor)
         if(x.style.color === currentColor){
@@ -186,4 +183,4 @@ function enableDefaultColorButton(currentColor){
             x.addEventListener("click", handleColorClick);
         }
      })
- }
+}

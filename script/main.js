@@ -2,7 +2,7 @@
 let currentCodeArray = ["", "", "", ""];
 let currentColorPalette = [];
 let rowCount = 7;
-let colorRows = [];
+let colorRows = ["", "", "", ""];
 let currentField = 0;
 let gameMode;
 let default_color_field_fa_circle = document.querySelectorAll(".default_color_field > .fas.fa-circle");
@@ -27,19 +27,18 @@ function handleHeadingClick(){
 function GetData(){
     currentColorPalette = JSON.parse(localStorage.getItem("defaultColorPalette"));
     gameMode = JSON.parse(sessionStorage.getItem("gameMode"));   
-    if(gameMode === "Versus"){
-        document.querySelector("#reload_button").style.display = "none";
-        document.querySelector("#placeholder").style.display = "none";
-    } 
 }
-
 
 function handleReloadButton() {
-    RestartGame();
+    if(gameMode === "Versus"){
+        RestartGameVersus();
+    }else{
+        RestartGameCoop();
+    }
 }
 
-function StartGame(){
-    setColoring();
+function StartGame() {
+    setColors();
 }
 
 let guessCode_fa_circle =  document.querySelectorAll(".guessCode_color_field > .fas.fa-circle");
@@ -47,9 +46,14 @@ let result_field_fa_circle =  document.querySelectorAll(".result_field > .fas.fa
 let color_row_fa_circle = document.querySelectorAll(".colorRow > .color_field > .fas.fa-circle");
 let mask = document.querySelector(".mask");
 
-function RestartGame(){
-    currentField = 0;
-    colorRows = [];
+//open Popup -> color code input field 
+function RestartGameVersus(){
+    window.location = "menu.html"
+    //colorCodeGenerator();
+}
+
+function RestartGameCoop() {
+    colorRows = ["", "", "", ""];
     rowCount = 7;
     enableDefaultColorButtons();
 
@@ -67,11 +71,10 @@ function RestartGame(){
     })
 
     randomSecretColors();
-
     mask.classList.add("hidden");
 }
 
-function setColoring() {
+function setColors() {
     default_color_field_fa_circle.forEach( (item, index) => {
         item.style.color = currentColorPalette[index];
     })
@@ -83,32 +86,44 @@ function setColoring() {
   
 }
 
-function randomSecretColors(){
+function randomSecretColors() {
     let randomColors = currentColorPalette.sort(() => Math.random() - .5).slice(0, 4);
     currentCodeArray = randomColors;
-    console.log(currentCodeArray)
 }
 
+/* Pop Up*/
+
+function colorCodeGenerator(){
+    //Farbcode PopUp
+   
+    document.querySelector("#pop-outer").style.display = "flex";
+}
+
+/*Pop Up Ende*/
+
+// click on button in default row -> color printed on current row
 function handleColorClick(event) {
    
+    let currentSpot = 0;
     let targetColor = event.target.style.color;
 
-    document.querySelector(".guessContainer:nth-child(" + rowCount + ") .color_field:nth-child(" + (currentField + 1) + ") > *").style.color = targetColor;
+    for(let i = 0; i < colorRows.length; i++){
+        if(colorRows[i] === ""){
+            colorRows[i] = targetColor;
+            currentSpot = i;
+            document.querySelector(".guessContainer:nth-child(" + rowCount + ") .color_field:nth-child(" + (currentSpot + 1) + ") > *").style.color = targetColor;
+            let id = event.target.parentNode.id;
+            disableDefaultColorButton(id);  
+            break;
+        }
+    }
 
-    let id = event.target.parentNode.id;
-   disableDefaultColorButton(id);  
-
-    if(colorRows.length > 2 && colorRows.length < 4){
-        colorRows[currentField] = targetColor;
+    if(!(colorRows.includes(""))){
         loadResults();      
-        currentField = 0;
-
-    }else{
-        colorRows[currentField] = targetColor;
-        currentField = currentField + 1;
     }
 }
 
+// give number for color and place, show resulsts in result container 
 function loadResults() {
     let j;
     let t = 0;
@@ -117,14 +132,14 @@ function loadResults() {
     for(j = 0; j < currentCodeArray.length; j++){
       if(colorRows.includes(currentCodeArray[j])){
         if(currentCodeArray[j] === colorRows[j]){
-            //wenn farbe enthalten und richtige stelle, 
+            //right color on right place
             resultArray.push(2);
         }else{
-            //wenn richtige farbe aber falsche stelle
+            //right color on wrong place
             resultArray.push(1);
         }
       }else{
-        //nicht richtige farbe und nicht richtige stelle
+        //all wrong
         resultArray.push(0);
       }
     }
@@ -158,11 +173,11 @@ function loadResults() {
         }
         enableDefaultColorButtons();
     }
-    colorRows = [];
+    colorRows = ["", "", "", ""];
     rowCount = rowCount - 1;
 }
 
-function handleWin(sortedArray){
+function handleWin(sortedArray) {
     if(sortedArray.includes(1) || sortedArray.includes(0)){
         return false;
     }else{
@@ -170,7 +185,8 @@ function handleWin(sortedArray){
     }
 }
 
-function showSecretCode(){
+//show color Code -> end of round
+function showSecretCode() {
     guessCode_fa_circle.forEach( (item, index) => {
         item.style.color = currentCodeArray[index];
     })
@@ -178,7 +194,8 @@ function showSecretCode(){
    mask.classList.remove("hidden");
 }
 
-function disableDefaultColorButton(currentClickedButtonID){
+//current click button -> default row
+function disableDefaultColorButton(currentClickedButtonID) {
 
     let defaultDisableButton = document.getElementById(currentClickedButtonID);
    
@@ -186,9 +203,45 @@ function disableDefaultColorButton(currentClickedButtonID){
     defaultDisableButton.removeEventListener("click", handleColorClick);
 }
 
-function enableDefaultColorButtons(){
+//end of row
+function enableDefaultColorButtons() {
    default_color_field_fa_circle.forEach(x => {
         x.classList.remove("disabled");
         x.addEventListener("click", handleColorClick);
+    })
+}
+
+//click on chossen button in row -> enable color in default row
+function enableDefaultColorButton(currentColor) {
+    default_color_field_fa_circle.forEach(x => {
+        if(x.style.color === currentColor){
+            x.classList.remove("disabled");
+            x.addEventListener("click", handleColorClick);
+        }
+     })
+}
+
+let currentColorCode = document.querySelectorAll(".guessContainer:nth-child(" + rowCount + ")");
+
+currentColorCode.forEach(field => {
+    field.addEventListener("click", removeColor);
+})
+
+//click on current row on button -> disable click button -> enable color in default row
+function removeColor(event) {
+    let targetColor = event.target.style.color;
+    let currentField = document.getElementById(event.target.parentNode.id);
+    let currentSpot = colorRows.indexOf(currentField.children[0].style.color);
+ 
+    default_color_field.forEach( option => {
+        if(option.children[0].classList.contains("disabled")){
+            if(targetColor === option.children[0].style.color){
+                option.children[0].classList.remove("disabled");
+                currentField.children[0].style.color = "rgb(175, 175, 175)";
+                colorRows[currentSpot] = "";
+                enableDefaultColorButton(targetColor);
+                return;
+            }
+        }
     })
 }
