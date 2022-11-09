@@ -174,6 +174,7 @@ function loadResults() {
     }
     colorRows = ["", "", "", ""];
     rowCount = rowCount - 1;
+    addRemoveColorEventListener();
 }
 
 function handleWin(sortedArray) {
@@ -220,11 +221,21 @@ function enableDefaultColorButton(currentColor) {
      })
 }
 
-let currentColorCode = document.querySelectorAll(".guessContainer:nth-child(" + rowCount + ")");
 
-currentColorCode.forEach(field => {
-    field.addEventListener("click", removeColor);
-})
+function addRemoveColorEventListener() {
+
+    let currentColorCode = document.querySelectorAll(".guessContainer:nth-child(" + rowCount + ")");
+
+    document.querySelectorAll(".guessContainer").forEach(row => {
+        row.removeEventListener("click", removeColor);
+    })
+
+    currentColorCode.forEach(field => {
+        field.addEventListener("click", removeColor);
+    })
+}
+
+addRemoveColorEventListener();
 
 //click on current row on button -> disable click button -> enable color in default row
 function removeColor(event) {
@@ -236,7 +247,7 @@ function removeColor(event) {
         if(option.children[0].classList.contains("disabled")){
             if(targetColor === option.children[0].style.color){
                 option.children[0].classList.remove("disabled");
-                currentField.children[0].style.color = "rgb(175, 175, 175)";
+                currentField.children[0].style.color = "rgba(255, 255, 255, 0.363)";
                 colorRows[currentSpot] = "";
                 enableDefaultColorButton(targetColor);
                 return;
