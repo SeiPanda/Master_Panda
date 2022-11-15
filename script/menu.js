@@ -70,6 +70,7 @@ function onConfirmClick() {
         return;
     }
     colorCode = colorRows;
+    localStorage.setItem("defaultColorPalette", JSON.stringify(currentColorPalette));
     sessionStorage.setItem("versusColorCode", JSON.stringify(colorCode));
     sessionStorage.setItem("gameMode", JSON.stringify(currentGamemode));
     window.location="main.html";
